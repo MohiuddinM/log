@@ -1,4 +1,4 @@
-import 'package:log/src/log_level.dart';
+import 'log_level.dart';
 
 class LogMessage {
   final LogLevel level;

@@ -7,7 +7,7 @@ An easy to use and extendable logging package for Dart. Especially useful for us
 A simple usage example:
 
 ```dart
-import 'package:log/log.dart';
+import 'package:quick_log/quick_log.dart';
 
 void main() {
   const log = Logger('LogExample');
@@ -19,7 +19,7 @@ void main() {
 
 Configuring logger output:
 ```dart
-import 'package:log/log.dart';
+import 'package:quick_log/quick_log.dart';
 
 void main() {
   const log = Logger('LogExample');
@@ -33,7 +33,7 @@ void main() {
 
 Ignoring logs 
 ```dart
-import 'package:log/log.dart';
+import 'package:quick_log/quick_log.dart';
 
 class ExampleLogger extends Logger {
   const ExampleLogger(String name) : super(name, 'ExampleLogger');

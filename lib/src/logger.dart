@@ -1,10 +1,11 @@
-import 'package:log/log.dart';
-import 'package:log/src/log_message.dart';
-import 'package:log/src/log_writer.dart';
+import 'log_message.dart';
+import 'log_writer.dart';
+import 'log_level.dart';
 
 class Logger {
   final String name, namespace;
-  static final Map<String, Map<String, Logger>> _instances = {};
+
+  //static final Map<String, Map<String, Logger>> _instances = {};
 
   static LogWriter _writer;
 

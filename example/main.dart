@@ -1,4 +1,4 @@
-import 'package:log/log.dart';
+import 'package:quick_log/quick_log.dart';
 
 class ExampleLogger extends Logger {
   const ExampleLogger(String name) : super(name, 'ExampleLogger');
@@ -7,7 +7,7 @@ class ExampleLogger extends Logger {
 void main() {
   const log = ExampleLogger('LogExample');
 
-  Logger.writer = ConsolePrinter(minLevel: LogLevel.info);
+  Logger.writer = ConsolePrinter(minLevel: LogLevel.info, enableInReleaseMode: true);
 
   log.debug('this is a debug message');
   log.info('this is an info message');
