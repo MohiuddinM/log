@@ -1,15 +1,14 @@
-import 'dart:io';
-import 'dart:math';
-
-import 'package:log/log.dart';
-import 'package:log/src/log_message.dart';
+import 'log_level.dart';
+import 'log_message.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class LogWriter {
   final List<String> onlyNamespace, exceptNamespace;
   final LogLevel onlyLevel, minLevel;
+  final bool enableInReleaseMode;
+  static const bool _kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(this.onlyNamespace, this.exceptNamespace, this.onlyLevel, minLevel)
+  const LogWriter(this.onlyNamespace, this.exceptNamespace, this.onlyLevel, LogLevel minLevel, [this.enableInReleaseMode = false])
       : assert(onlyNamespace == null || exceptNamespace == null),
         assert(onlyLevel == null || minLevel == null),
         this.minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null);
@@ -17,6 +16,10 @@ abstract class LogWriter {
   Future<void> write(LogMessage message);
 
   bool shouldLog(LogMessage msg) {
+    if (_kReleaseMode && !enableInReleaseMode) {
+      return false;
+    }
+
     if (msg.level.value >= minLevel.value || msg.level == onlyLevel) {
       if (onlyNamespace != null) {
         if (onlyNamespace.contains(msg.loggerNamespace)) {
@@ -36,8 +39,8 @@ abstract class LogWriter {
 }
 
 class ConsolePrinter extends LogWriter {
-  const ConsolePrinter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel})
-      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
+  const ConsolePrinter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel, bool enableInReleaseMode})
+      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel, enableInReleaseMode);
 
   Future<void> write(LogMessage msg) async {
     String color = '';
