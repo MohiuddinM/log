@@ -31,7 +31,7 @@ void main() {
 }
 ```
 
-Ignoring logs 
+Ignoring logs:
 ```dart
 import 'package:quick_log/quick_log.dart';
 
