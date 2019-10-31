@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Minor changes
+
 ## 0.1.2
 
 - Added option to enable or disable console printer during release mode (disabled by default)
