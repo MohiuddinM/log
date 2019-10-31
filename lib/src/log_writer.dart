@@ -1,3 +1,4 @@
+import 'package:dart_console/dart_console.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'log_level.dart';
@@ -47,19 +48,22 @@ class ConsolePrinter extends LogWriter {
       : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel, enableInReleaseMode);
 
   Future<void> write(LogMessage msg) async {
-    String color = '';
+    final console = Console();
     if (shouldLog(msg)) {
       if (msg.level == LogLevel.fine) {
-        color = '\x1b[93m';
+        console.setForegroundColor(ConsoleColor.yellow);
       } else if (msg.level == LogLevel.info || msg.level == LogLevel.debug) {
-        color = '\x1b[92m';
+        console.setForegroundColor(ConsoleColor.brightYellow);
       } else if (msg.level == LogLevel.warning) {
-        color = '\x1b[31m';
+        console.setForegroundColor(ConsoleColor.red);
       } else if (msg.level == LogLevel.error) {
-        color = '\x1b[97;41m';
+        console.setBackgroundColor(ConsoleColor.brightWhite);
+        console.setForegroundColor(ConsoleColor.brightBlue);
       }
 
-      print('$color${msg.loggerName}: [${msg.level}] - ${msg.message}');
+      console.writeLine('${msg.loggerName}: [${msg.level}] - ${msg.message}');
+      console.resetColorAttributes();
+      //print('$color${msg.loggerName}: [${msg.level}] - ${msg.message}');
     }
   }
 }
