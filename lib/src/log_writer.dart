@@ -1,6 +1,7 @@
+import 'package:rxdart/rxdart.dart';
+
 import 'log_level.dart';
 import 'log_message.dart';
-import 'package:rxdart/rxdart.dart';
 
 abstract class LogWriter {
   final List<String> onlyNamespace, exceptNamespace;
@@ -16,6 +17,9 @@ abstract class LogWriter {
   Future<void> write(LogMessage message);
 
   bool shouldLog(LogMessage msg) {
+    // bool debugMode = false;
+    // assert(debugMode = true);
+
     if (_kReleaseMode && !enableInReleaseMode) {
       return false;
     }
