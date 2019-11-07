@@ -1,3 +1,7 @@
+## 0.2.0
+
+- update dart_console library
+
 ## 0.1.3
 
 - Minor changes
