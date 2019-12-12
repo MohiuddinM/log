@@ -1,3 +1,7 @@
+## 0.3.0
+
+- remove dart_console library
+
 ## 0.2.0
 
 - update dart_console library
