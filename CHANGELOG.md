@@ -1,3 +1,7 @@
+## 0.3.1
+
+- bug fix
+
 ## 0.3.0
 
 - remove dart_console library
