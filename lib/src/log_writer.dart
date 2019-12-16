@@ -6,13 +6,14 @@ import 'log_message.dart';
 abstract class LogWriter {
   final List<String> onlyNamespace, exceptNamespace;
   final LogLevel onlyLevel, minLevel;
-  final bool enableInReleaseMode;
+  final bool _enableInReleaseMode;
   static const bool _kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(this.onlyNamespace, this.exceptNamespace, this.onlyLevel, LogLevel minLevel, [this.enableInReleaseMode = false])
+  const LogWriter(this.onlyNamespace, this.exceptNamespace, this.onlyLevel, LogLevel minLevel, [bool enableInReleaseMode])
       : assert(onlyNamespace == null || exceptNamespace == null),
         assert(onlyLevel == null || minLevel == null),
-        this.minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null);
+        this.minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null),
+        _enableInReleaseMode = enableInReleaseMode ?? false;
 
   Future<void> write(LogMessage message);
 
@@ -20,7 +21,7 @@ abstract class LogWriter {
     // bool debugMode = false;
     // assert(debugMode = true);
 
-    if (_kReleaseMode && !enableInReleaseMode) {
+    if (_kReleaseMode && !_enableInReleaseMode) {
       return false;
     }
 
