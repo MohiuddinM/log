@@ -1,3 +1,7 @@
+## 0.4.0
+
+- update dependencies
+
 ## 0.3.1
 
 - bug fix
