@@ -5,7 +5,7 @@ class LogMessage {
   final String message;
   final DateTime timestamp;
   final String loggerName;
-  final String loggerNamespace;
+  final String loggerTag;
 
-  const LogMessage(this.level, this.message, this.timestamp, this.loggerName, this.loggerNamespace);
+  const LogMessage(this.level, this.message, this.timestamp, this.loggerName, this.loggerTag);
 }

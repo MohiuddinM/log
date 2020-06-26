@@ -18,7 +18,7 @@ void main() {
       const log1 = TestLogger1('Main');
       const log2 = TestLogger2('MainTest2');
 
-      Logger.writer = ConsolePrinter(onlyNamespace: [log1.namespace]);
+      Logger.writer = ConsolePrinter(onlyTags: [log1.tag]);
 
       log1.fine('fine message');
       log1.debug('debug message');

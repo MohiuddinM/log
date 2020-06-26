@@ -2,6 +2,11 @@ An easy to use and extendable logging package for Dart. Especially useful for us
 
 ![Console Printer Output](https://raw.githubusercontent.com/MohiuddinM/log/master/console.png)
 
+## Features
+* Ability to filter logs from imported libraries
+* 100% configurable (print logs to console, write to file or send to backend all possible!)
+* Similar to other logging packages, so nothing new to learn
+
 ## Usage
 
 A simple usage example:
@@ -42,19 +47,15 @@ class ExampleLogger extends Logger {
 void main() {
   const log = ExampleLogger('LogExample');
 
-  Logger.writer = ConsolePrinter(onlyNamespace: []);
+  Logger.writer = ConsolePrinter(onlyTags: []);
   // Or
-  Logger.writer = ConsolePrinter(exceptNamespace: [log.namespace]);
+  Logger.writer = ConsolePrinter(exceptTags: [log.namespace]);
 
   // These messages won't be printed
   log.debug('this is a debug message');
   log.info('this is an info message');
 }
 ```
-
-## Features
-* Similar to Dart logging package and logging libraries in other languages
-* Completely configurable and extendable Logger and LogWriter
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 

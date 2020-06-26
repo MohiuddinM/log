@@ -1,16 +1,17 @@
+import 'package:no_bloc/no_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'log_level.dart';
 import 'log_message.dart';
 
 abstract class LogWriter {
-  final List<String> onlyNamespace, exceptNamespace;
+  final List<String> onlyTags, exceptTags;
   final LogLevel onlyLevel, minLevel;
   final bool _enableInReleaseMode;
   static const bool _kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(this.onlyNamespace, this.exceptNamespace, this.onlyLevel, LogLevel minLevel, [bool enableInReleaseMode])
-      : assert(onlyNamespace == null || exceptNamespace == null),
+  const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, LogLevel minLevel, [bool enableInReleaseMode])
+      : assert(onlyTags == null || exceptTags == null),
         assert(onlyLevel == null || minLevel == null),
         this.minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null),
         _enableInReleaseMode = enableInReleaseMode ?? false;
@@ -26,12 +27,12 @@ abstract class LogWriter {
     }
 
     if (msg.level.value >= minLevel.value || msg.level == onlyLevel) {
-      if (onlyNamespace != null) {
-        if (onlyNamespace.contains(msg.loggerNamespace)) {
+      if (onlyTags != null) {
+        if (onlyTags.contains(msg.loggerTag)) {
           return true;
         }
-      } else if (exceptNamespace != null) {
-        if (!exceptNamespace.contains(msg.loggerNamespace)) {
+      } else if (exceptTags != null) {
+        if (!exceptTags.contains(msg.loggerTag)) {
           return true;
         }
       } else {
@@ -44,8 +45,8 @@ abstract class LogWriter {
 }
 
 class ConsolePrinter extends LogWriter {
-  const ConsolePrinter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel, bool enableInReleaseMode})
-      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel, enableInReleaseMode);
+  const ConsolePrinter({List<String> onlyTags, List<String> exceptTags, LogLevel onlyLevel, LogLevel minLevel, bool enableInReleaseMode})
+      : super(onlyTags, exceptTags, onlyLevel, minLevel, enableInReleaseMode);
 
   Future<void> write(LogMessage msg) async {
     String color = '';
@@ -89,12 +90,53 @@ class LogStreamWriter extends LogWriter {
 
   LogMessage get lastMessage => _messages.value;
 
-  LogStreamWriter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel})
-      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
+  LogStreamWriter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel}) : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
 
   Future<void> write(LogMessage msg) async {
     if (shouldLog(msg)) {
       _messages.add(msg);
     }
+  }
+}
+
+class BlocLogger extends LogWriter implements BlocMonitor {
+  BlocLogger(List<String> onlyTags, List<String> exceptTags, LogLevel onlyLevel, LogLevel minLevel) : super(onlyTags, exceptTags, onlyLevel, minLevel);
+
+  @override
+  void onBroadcast(String blocName, state, {String event}) {}
+
+  @override
+  void onBusy(String blocName, {String event}) {
+    // TODO: implement onBusy
+  }
+
+  @override
+  void onError(String blocName, StateError error, {String event}) {
+    // TODO: implement onError
+  }
+
+  @override
+  void onEvent(String blocName, currentState, update, {String event}) {
+    // TODO: implement onEvent
+  }
+
+  @override
+  void onInit(String blocName, initState) {
+    // TODO: implement onInit
+  }
+
+  @override
+  void onStreamDispose(String blocName) {
+    // TODO: implement onStreamDispose
+  }
+
+  @override
+  void onStreamListener(String blocName) {
+    // TODO: implement onStreamListener
+  }
+
+  @override
+  Future<void> write(LogMessage message) async {
+    print(message.message);
   }
 }

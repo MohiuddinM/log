@@ -1,3 +1,12 @@
+## 1.1.0
+
+- refactor
+- change documentation
+
+## 1.0.0
+
+- promote package to 1.0.0
+
 ## 0.4.1
 
 - update dependencies
