@@ -1,3 +1,23 @@
+## 2.0.0
+
+- refactoring
+
+## 1.1.4
+
+- minor changes
+
+## 1.1.3
+
+- run formatter
+
+## 1.1.2
+
+- add documentation
+
+## 1.1.1
+
+- update dependencies
+
 ## 1.1.0
 
 - refactor

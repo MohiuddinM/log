@@ -25,6 +25,11 @@ void main() {
       log1.info('info message');
       log1.warning('warning message');
       log1.error('error message');
+      log1.fine('fine message');
+      log1.debug('debug message');
+      log1.info('info message');
+      log1.warning('warning message');
+      log1.error('error message');
 
       log2.fine('fine message');
       log2.debug('debug message');

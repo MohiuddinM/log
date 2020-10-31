@@ -1,19 +1,25 @@
-import 'package:no_bloc/no_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'log_level.dart';
 import 'log_message.dart';
 
+/// Base class which a [Logger] requires to write a [LogMessage]
+///
+/// Subclasses must override the [write] method
+/// This library comes with a [ConsolePrinter] as a default [LogWriter],
 abstract class LogWriter {
   final List<String> onlyTags, exceptTags;
   final LogLevel onlyLevel, minLevel;
   final bool _enableInReleaseMode;
-  static const bool _kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
+  static const bool _kReleaseMode =
+      bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, LogLevel minLevel, [bool enableInReleaseMode])
+  const LogWriter(
+      this.onlyTags, this.exceptTags, this.onlyLevel, LogLevel minLevel,
+      [bool enableInReleaseMode])
       : assert(onlyTags == null || exceptTags == null),
         assert(onlyLevel == null || minLevel == null),
-        this.minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null),
+        minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null),
         _enableInReleaseMode = enableInReleaseMode ?? false;
 
   Future<void> write(LogMessage message);
@@ -44,12 +50,19 @@ abstract class LogWriter {
   }
 }
 
+/// Default [LogWriter], prints all [LogMessage] to the default console
 class ConsolePrinter extends LogWriter {
-  const ConsolePrinter({List<String> onlyTags, List<String> exceptTags, LogLevel onlyLevel, LogLevel minLevel, bool enableInReleaseMode})
+  const ConsolePrinter(
+      {List<String> onlyTags,
+      List<String> exceptTags,
+      LogLevel onlyLevel,
+      LogLevel minLevel,
+      bool enableInReleaseMode})
       : super(onlyTags, exceptTags, onlyLevel, minLevel, enableInReleaseMode);
 
+  @override
   Future<void> write(LogMessage msg) async {
-    String color = '';
+    var color = '';
     if (shouldLog(msg)) {
       if (msg.level == LogLevel.fine) {
         color = '\x1b[92m';
@@ -66,9 +79,11 @@ class ConsolePrinter extends LogWriter {
   }
 }
 
+/// Discards all message written to it
 class NullWriter extends LogWriter {
   const NullWriter() : super(null, null, null, null);
 
+  @override
   Future<void> write(LogMessage message) async {}
 }
 
@@ -83,6 +98,10 @@ class NullWriter extends LogWriter {
 //  }
 //}
 
+/// Writes [LogMessage] to a [Stream]
+///
+/// Useful for debugging purpose
+/// Stream can also be redirected
 class LogStreamWriter extends LogWriter {
   final _messages = BehaviorSubject<LogMessage>();
 
@@ -90,53 +109,17 @@ class LogStreamWriter extends LogWriter {
 
   LogMessage get lastMessage => _messages.value;
 
-  LogStreamWriter({List<String> onlyNamespace, List<String> exceptNamespace, LogLevel onlyLevel, LogLevel minLevel}) : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
+  LogStreamWriter(
+      {List<String> onlyNamespace,
+      List<String> exceptNamespace,
+      LogLevel onlyLevel,
+      LogLevel minLevel})
+      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
 
+  @override
   Future<void> write(LogMessage msg) async {
     if (shouldLog(msg)) {
       _messages.add(msg);
     }
-  }
-}
-
-class BlocLogger extends LogWriter implements BlocMonitor {
-  BlocLogger(List<String> onlyTags, List<String> exceptTags, LogLevel onlyLevel, LogLevel minLevel) : super(onlyTags, exceptTags, onlyLevel, minLevel);
-
-  @override
-  void onBroadcast(String blocName, state, {String event}) {}
-
-  @override
-  void onBusy(String blocName, {String event}) {
-    // TODO: implement onBusy
-  }
-
-  @override
-  void onError(String blocName, StateError error, {String event}) {
-    // TODO: implement onError
-  }
-
-  @override
-  void onEvent(String blocName, currentState, update, {String event}) {
-    // TODO: implement onEvent
-  }
-
-  @override
-  void onInit(String blocName, initState) {
-    // TODO: implement onInit
-  }
-
-  @override
-  void onStreamDispose(String blocName) {
-    // TODO: implement onStreamDispose
-  }
-
-  @override
-  void onStreamListener(String blocName) {
-    // TODO: implement onStreamListener
-  }
-
-  @override
-  Future<void> write(LogMessage message) async {
-    print(message.message);
   }
 }
