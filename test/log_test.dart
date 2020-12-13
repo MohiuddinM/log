@@ -38,10 +38,10 @@ void main() {
       log2.error('error message');
 
       final allWriter = LogStreamWriter();
-      final only1Writer = LogStreamWriter(onlyNamespace: ['TestWriter1']);
-      final only2Writer = LogStreamWriter(onlyNamespace: ['TestWriter2']);
-      final except1Writer = LogStreamWriter(exceptNamespace: ['TestWriter1']);
-      final except2Writer = LogStreamWriter(exceptNamespace: ['TestWriter2']);
+      final only1Writer = LogStreamWriter(onlyTags: ['TestWriter1']);
+      final only2Writer = LogStreamWriter(onlyTags: ['TestWriter2']);
+      final except1Writer = LogStreamWriter(exceptTags: ['TestWriter1']);
+      final except2Writer = LogStreamWriter(exceptTags: ['TestWriter2']);
 
       Logger.writer = allWriter;
       log1.fine('f1');

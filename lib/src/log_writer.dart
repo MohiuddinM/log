@@ -8,19 +8,16 @@ import 'log_message.dart';
 /// Subclasses must override the [write] method
 /// This library comes with a [ConsolePrinter] as a default [LogWriter],
 abstract class LogWriter {
-  final List<String> onlyTags, exceptTags;
-  final LogLevel onlyLevel, minLevel;
-  final bool _enableInReleaseMode;
+  final List<String>? onlyTags, exceptTags;
+  final LogLevel? onlyLevel, minLevel;
+  final bool enableInReleaseMode;
   static const bool _kReleaseMode =
       bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(
-      this.onlyTags, this.exceptTags, this.onlyLevel, LogLevel minLevel,
-      [bool enableInReleaseMode])
+  const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, this.minLevel,
+      [this.enableInReleaseMode = false])
       : assert(onlyTags == null || exceptTags == null),
-        assert(onlyLevel == null || minLevel == null),
-        minLevel = minLevel ?? (onlyLevel == null ? LogLevel.fine : null),
-        _enableInReleaseMode = enableInReleaseMode ?? false;
+        assert(onlyLevel == null || minLevel == null);
 
   Future<void> write(LogMessage message);
 
@@ -28,17 +25,17 @@ abstract class LogWriter {
     // bool debugMode = false;
     // assert(debugMode = true);
 
-    if (_kReleaseMode && !_enableInReleaseMode) {
+    if (_kReleaseMode && !enableInReleaseMode) {
       return false;
     }
 
-    if (msg.level.value >= minLevel.value || msg.level == onlyLevel) {
+    if (msg.level >= (minLevel ?? LogLevel.fine) || msg.level == onlyLevel) {
       if (onlyTags != null) {
-        if (onlyTags.contains(msg.loggerTag)) {
+        if (onlyTags!.contains(msg.loggerTag)) {
           return true;
         }
       } else if (exceptTags != null) {
-        if (!exceptTags.contains(msg.loggerTag)) {
+        if (!exceptTags!.contains(msg.loggerTag)) {
           return true;
         }
       } else {
@@ -52,13 +49,13 @@ abstract class LogWriter {
 
 /// Default [LogWriter], prints all [LogMessage] to the default console
 class ConsolePrinter extends LogWriter {
-  const ConsolePrinter(
-      {List<String> onlyTags,
-      List<String> exceptTags,
-      LogLevel onlyLevel,
-      LogLevel minLevel,
-      bool enableInReleaseMode})
-      : super(onlyTags, exceptTags, onlyLevel, minLevel, enableInReleaseMode);
+  const ConsolePrinter({
+    List<String>? onlyTags,
+    List<String>? exceptTags,
+    LogLevel? onlyLevel,
+    LogLevel? minLevel,
+    bool enableInReleaseMode = false,
+  }) : super(onlyTags, exceptTags, onlyLevel, minLevel, enableInReleaseMode);
 
   @override
   Future<void> write(LogMessage msg) async {
@@ -109,12 +106,12 @@ class LogStreamWriter extends LogWriter {
 
   LogMessage get lastMessage => _messages.value;
 
-  LogStreamWriter(
-      {List<String> onlyNamespace,
-      List<String> exceptNamespace,
-      LogLevel onlyLevel,
-      LogLevel minLevel})
-      : super(onlyNamespace, exceptNamespace, onlyLevel, minLevel);
+  LogStreamWriter({
+    List<String>? onlyTags,
+    List<String>? exceptTags,
+    LogLevel? onlyLevel,
+    LogLevel? minLevel,
+  }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
 
   @override
   Future<void> write(LogMessage msg) async {
