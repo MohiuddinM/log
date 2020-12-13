@@ -1,3 +1,7 @@
+## 3.0.0
+
+- make package null safe
+
 ## 2.0.0
 
 - refactoring
