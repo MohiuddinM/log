@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 import 'log_level.dart';
 import 'log_message.dart';
 import 'log_writer.dart';
@@ -8,15 +6,10 @@ import 'log_writer.dart';
 ///
 /// [tag] should be set to the name of the project
 /// Can be used to ignore [LogMessage] from a particular tag
-class Logger extends Equatable {
+class Logger {
   final String name, tag;
 
-  static LogWriter _writer;
-
-  static LogWriter get writer =>
-      _writer ?? const ConsolePrinter(minLevel: LogLevel.fine);
-
-  static set writer(LogWriter writer) => _writer = writer;
+  static LogWriter writer = const ConsolePrinter(minLevel: LogLevel.fine);
 
   const Logger(this.name, [this.tag = 'none']);
 
@@ -45,5 +38,8 @@ class Logger extends Equatable {
   }
 
   @override
-  List<Object> get props => [name, tag];
+  int get hashCode => name.hashCode + tag.hashCode;
+
+  @override
+  bool operator ==(Object other) => other is Logger && other.name == name && other.tag == tag;
 }

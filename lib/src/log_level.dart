@@ -18,6 +18,8 @@ class LogLevel implements Comparable<LogLevel> {
   @override
   bool operator ==(Object other) => other is LogLevel && value == other.value;
 
+  bool operator >=(LogLevel other) => other.value >= value;
+
   @override
   int compareTo(LogLevel other) => value - other.value;
 
