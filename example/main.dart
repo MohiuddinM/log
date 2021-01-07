@@ -7,7 +7,8 @@ class ExampleLogger extends Logger {
 void main() {
   const log = ExampleLogger('LogExample');
 
-  Logger.writer = ConsolePrinter(minLevel: LogLevel.info, enableInReleaseMode: true);
+  LogWriter.enableInReleaseMode = true;
+  Logger.writer = ConsolePrinter(minLevel: LogLevel.info);
 
   log.debug('this is a debug message');
   log.info('this is an info message');

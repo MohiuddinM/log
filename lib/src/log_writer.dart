@@ -10,12 +10,11 @@ import 'log_message.dart';
 abstract class LogWriter {
   final List<String>? onlyTags, exceptTags;
   final LogLevel? onlyLevel, minLevel;
-  final bool enableInReleaseMode;
+  static bool enableInReleaseMode = false;
   static const bool _kReleaseMode =
       bool.fromEnvironment('dart.vm.product', defaultValue: false);
 
-  const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, this.minLevel,
-      [this.enableInReleaseMode = false])
+  const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, this.minLevel)
       : assert(onlyTags == null || exceptTags == null),
         assert(onlyLevel == null || minLevel == null);
 
@@ -54,8 +53,7 @@ class ConsolePrinter extends LogWriter {
     List<String>? exceptTags,
     LogLevel? onlyLevel,
     LogLevel? minLevel,
-    bool enableInReleaseMode = false,
-  }) : super(onlyTags, exceptTags, onlyLevel, minLevel, enableInReleaseMode);
+  }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
 
   @override
   Future<void> write(LogMessage msg) async {
@@ -104,7 +102,13 @@ class LogStreamWriter extends LogWriter {
 
   Stream<LogMessage> get messages => _messages.stream;
 
-  LogMessage get lastMessage => _messages.value;
+  LogMessage get lastMessage {
+    if (_messages.value == null) {
+      throw StateError('No messages have been written');
+    }
+
+    return _messages.value!;
+  }
 
   LogStreamWriter({
     List<String>? onlyTags,
