@@ -69,5 +69,10 @@ void main() {
       log2.fine('f2');
       expect(except2Writer.lastMessage.message, 'f1');
     });
+
+    test('level test', () {
+      expect(LogLevel.fine >= LogLevel.info, false);
+
+    });
   });
 }

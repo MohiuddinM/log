@@ -1,6 +1,6 @@
 name: quick_log
 description: An easy to use and extendable logging package for Dart. Especially useful for use in libraries, as it allows applications to control logging from the imported libraries.
-version: 4.0.0-nullsafety.0
+version: 4.0.0-nullsafety.1
 homepage: https://github.com/MohiuddinM/log
 
 environment:

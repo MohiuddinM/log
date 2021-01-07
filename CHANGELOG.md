@@ -1,3 +1,7 @@
+## 4.0.0-nullsafety.1
+
+- fix bug
+
 ## 4.0.0-nullsafety.0
 
 - change run release mode options
