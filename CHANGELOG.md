@@ -1,3 +1,7 @@
+## 4.0.0
+
+- stable null safe
+
 ## 4.0.0-nullsafety.1
 
 - fix bug
