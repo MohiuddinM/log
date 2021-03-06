@@ -1,3 +1,7 @@
+## 4.0.2
+
+- minor change
+
 ## 4.0.1
 
 - minor change

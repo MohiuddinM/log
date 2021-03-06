@@ -13,6 +13,9 @@ class Logger {
 
   const Logger(this.name, [this.tag = 'none']);
 
+  /// Generic function which sends message to [LogWriter]
+  ///
+  /// This can either be used directly, but is more helpful to use level specific functions like [info], [warning] etc
   void log(LogMessage message) {
     writer.write(message);
   }
@@ -41,5 +44,6 @@ class Logger {
   int get hashCode => name.hashCode + tag.hashCode;
 
   @override
-  bool operator ==(Object other) => other is Logger && other.name == name && other.tag == tag;
+  bool operator ==(Object other) =>
+      other is Logger && other.name == name && other.tag == tag;
 }

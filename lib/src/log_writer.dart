@@ -18,6 +18,9 @@ abstract class LogWriter {
       : assert(onlyTags == null || exceptTags == null),
         assert(onlyLevel == null || minLevel == null);
 
+  /// This function is responsible for outputting the message
+  ///
+  /// It is implemented by concrete classes extending [LogWriter]
   Future<void> write(LogMessage message);
 
   bool shouldLog(LogMessage msg) {

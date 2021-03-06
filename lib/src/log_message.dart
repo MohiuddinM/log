@@ -20,9 +20,19 @@ class LogMessage {
   );
 
   @override
-  int get hashCode => level.hashCode + message.hashCode + timestamp.hashCode + loggerName.hashCode + loggerName.hashCode;
-
+  int get hashCode =>
+      level.hashCode +
+      message.hashCode +
+      timestamp.hashCode +
+      loggerName.hashCode +
+      loggerName.hashCode;
 
   @override
-  bool operator ==(Object o) => o is LogMessage && o.level == level && o.message == message && o.timestamp == timestamp && o.loggerName == loggerName && o.loggerTag == loggerTag;
+  bool operator ==(Object o) =>
+      o is LogMessage &&
+      o.level == level &&
+      o.message == message &&
+      o.timestamp == timestamp &&
+      o.loggerName == loggerName &&
+      o.loggerTag == loggerTag;
 }
