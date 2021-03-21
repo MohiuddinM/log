@@ -51,6 +51,9 @@ abstract class LogWriter {
 
 /// Default [LogWriter], prints all [LogMessage] to the default console
 class ConsolePrinter extends LogWriter {
+  static const _ansiEsc = '\x1B[';
+  static const _ansiReset = '\x1b[0m';
+
   const ConsolePrinter({
     List<String>? onlyTags,
     List<String>? exceptTags,
@@ -63,16 +66,16 @@ class ConsolePrinter extends LogWriter {
     var color = '';
     if (shouldLog(msg)) {
       if (msg.level == LogLevel.fine) {
-        color = '\x1b[92m';
+        color = '92m';
       } else if (msg.level == LogLevel.info || msg.level == LogLevel.debug) {
-        color = '\x1b[93m';
+        color = '93m';
       } else if (msg.level == LogLevel.warning) {
-        color = '\x1b[31m';
+        color = '31m';
       } else if (msg.level == LogLevel.error) {
-        color = '\x1b[97;41m';
+        color = '97;41m';
       }
 
-      print('$color${msg.loggerName}: [${msg.level}] - ${msg.message}\x1b[0m');
+      print('$_ansiEsc$color${msg.loggerName}: [${msg.level}] - ${msg.message}$_ansiReset');
     }
   }
 }
