@@ -10,6 +10,7 @@ class LogMessage {
   final DateTime timestamp;
   final String loggerName;
   final String loggerTag;
+  final String? stackTrace;
 
   const LogMessage(
     this.level,
@@ -17,6 +18,7 @@ class LogMessage {
     this.timestamp,
     this.loggerName,
     this.loggerTag,
+    this.stackTrace,
   );
 
   @override
@@ -25,7 +27,8 @@ class LogMessage {
       message.hashCode +
       timestamp.hashCode +
       loggerName.hashCode +
-      loggerName.hashCode;
+      loggerName.hashCode +
+      stackTrace.hashCode;
 
   @override
   bool operator ==(Object o) =>
@@ -34,5 +37,6 @@ class LogMessage {
       o.message == message &&
       o.timestamp == timestamp &&
       o.loggerName == loggerName &&
-      o.loggerTag == loggerTag;
+      o.loggerTag == loggerTag &&
+      o.stackTrace == stackTrace;
 }

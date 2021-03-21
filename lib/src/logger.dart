@@ -20,24 +20,68 @@ class Logger {
     writer.write(message);
   }
 
-  void fine(String message) {
-    log(LogMessage(LogLevel.fine, message, DateTime.now(), name, tag));
+  String get _stackTrace {
+    final parts = StackTrace.current.toString().split('#');
+
+    final output = StringBuffer();
+    for (var i = 3; i < parts.length; i++) {
+      output.write('#');
+      output.write((i - 3).toString());
+      output.write(parts[i].substring(1));
+    }
+
+    return output.toString();
   }
 
-  void debug(String message) {
-    log(LogMessage(LogLevel.debug, message, DateTime.now(), name, tag));
+  void fine(
+    String message, {
+    bool includeStackTrace = false,
+    stackTrace,
+  }) {
+    final trace =
+        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
+    log(LogMessage(LogLevel.fine, message, DateTime.now(), name, tag, trace));
   }
 
-  void info(String message) {
-    log(LogMessage(LogLevel.info, message, DateTime.now(), name, tag));
+  void debug(
+    String message, {
+    bool includeStackTrace = false,
+    stackTrace,
+  }) {
+    final trace =
+        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
+    log(LogMessage(LogLevel.debug, message, DateTime.now(), name, tag, trace));
   }
 
-  void warning(String message) {
-    log(LogMessage(LogLevel.warning, message, DateTime.now(), name, tag));
+  void info(
+    String message, {
+    bool includeStackTrace = false,
+    stackTrace,
+  }) {
+    final trace =
+        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
+    log(LogMessage(LogLevel.info, message, DateTime.now(), name, tag, trace));
   }
 
-  void error(String message) {
-    log(LogMessage(LogLevel.error, message, DateTime.now(), name, tag));
+  void warning(
+    String message, {
+    bool includeStackTrace = false,
+    stackTrace,
+  }) {
+    final trace =
+        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
+    log(LogMessage(
+        LogLevel.warning, message, DateTime.now(), name, tag, trace));
+  }
+
+  void error(
+    String message, {
+    bool includeStackTrace = true,
+    stackTrace,
+  }) {
+    final trace =
+        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
+    log(LogMessage(LogLevel.error, message, DateTime.now(), name, tag, trace));
   }
 
   @override
