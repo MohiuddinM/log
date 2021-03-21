@@ -1,3 +1,7 @@
+## 5.0.0
+
+- added functionality to print stack traces
+
 ## 4.0.3
 
 - fix analyzer
