@@ -33,11 +33,11 @@ abstract class LogWriter {
 
     if (msg.level >= (minLevel ?? LogLevel.fine) || msg.level == onlyLevel) {
       if (onlyTags != null) {
-        if (onlyTags!.contains(msg.loggerTag)) {
+        if (onlyTags!.contains(msg.logger.tag)) {
           return true;
         }
       } else if (exceptTags != null) {
-        if (!exceptTags!.contains(msg.loggerTag)) {
+        if (!exceptTags!.contains(msg.logger.tag)) {
           return true;
         }
       } else {
@@ -75,7 +75,7 @@ class ConsolePrinter extends LogWriter {
         color = '97;41m';
       }
 
-      print('$_ansiEsc$color${msg.loggerName}: [${msg.level}] - ${msg.message}$_ansiReset');
+      print('$_ansiEsc$color${msg.logger.name}: [${msg.level}] - ${msg.message}$_ansiReset');
 
       if (msg.stackTrace != null) {
         print(msg.stackTrace);

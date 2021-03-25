@@ -1,4 +1,5 @@
 import 'log_level.dart';
+import 'logger.dart';
 
 /// A message that gets logged
 ///
@@ -8,17 +9,15 @@ class LogMessage {
   final LogLevel level;
   final String message;
   final DateTime timestamp;
-  final String loggerName;
-  final String loggerTag;
+  final Logger logger;
   final String? stackTrace;
 
   const LogMessage(
     this.level,
     this.message,
     this.timestamp,
-    this.loggerName,
-    this.loggerTag,
     this.stackTrace,
+    this.logger,
   );
 
   @override
@@ -26,8 +25,7 @@ class LogMessage {
       level.hashCode +
       message.hashCode +
       timestamp.hashCode +
-      loggerName.hashCode +
-      loggerName.hashCode +
+      logger.hashCode +
       stackTrace.hashCode;
 
   @override
@@ -36,7 +34,6 @@ class LogMessage {
       o.level == level &&
       o.message == message &&
       o.timestamp == timestamp &&
-      o.loggerName == loggerName &&
-      o.loggerTag == loggerTag &&
+      o.logger == logger &&
       o.stackTrace == stackTrace;
 }

@@ -40,7 +40,7 @@ class Logger {
   }) {
     final trace =
         includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.fine, message, DateTime.now(), name, tag, trace));
+    log(LogMessage(LogLevel.fine, message, DateTime.now(), trace, this));
   }
 
   void debug(
@@ -50,7 +50,7 @@ class Logger {
   }) {
     final trace =
         includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.debug, message, DateTime.now(), name, tag, trace));
+    log(LogMessage(LogLevel.debug, message, DateTime.now(), trace, this));
   }
 
   void info(
@@ -60,7 +60,7 @@ class Logger {
   }) {
     final trace =
         includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.info, message, DateTime.now(), name, tag, trace));
+    log(LogMessage(LogLevel.info, message, DateTime.now(), trace, this));
   }
 
   void warning(
@@ -70,8 +70,7 @@ class Logger {
   }) {
     final trace =
         includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(
-        LogLevel.warning, message, DateTime.now(), name, tag, trace));
+    log(LogMessage(LogLevel.warning, message, DateTime.now(), trace, this));
   }
 
   void error(
@@ -81,7 +80,7 @@ class Logger {
   }) {
     final trace =
         includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.error, message, DateTime.now(), name, tag, trace));
+    log(LogMessage(LogLevel.error, message, DateTime.now(), trace, this));
   }
 
   @override
