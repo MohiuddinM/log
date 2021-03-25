@@ -1,3 +1,7 @@
+## 5.1.0
+
+- refactored LogMessage
+
 ## 5.0.0
 
 - added functionality to print stack traces
