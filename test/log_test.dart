@@ -72,7 +72,6 @@ void main() {
 
     test('level test', () {
       expect(LogLevel.fine >= LogLevel.info, false);
-
     });
   });
 }

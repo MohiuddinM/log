@@ -75,7 +75,8 @@ class ConsolePrinter extends LogWriter {
         color = '97;41m';
       }
 
-      print('$_ansiEsc$color${msg.logger.name}: [${msg.level}] - ${msg.message}$_ansiReset');
+      print(
+          '$_ansiEsc$color${msg.logger.name}: [${msg.level}] - ${msg.message}$_ansiReset');
 
       if (msg.stackTrace != null) {
         print(msg.stackTrace);
