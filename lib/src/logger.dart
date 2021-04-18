@@ -33,54 +33,79 @@ class Logger {
     return output.toString();
   }
 
-  void fine(
-    String message, {
-    bool includeStackTrace = false,
-    stackTrace,
-  }) {
-    final trace =
-        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.fine, message, DateTime.now(), trace, this));
+  void fine(message, {bool includeStackTrace = false, stackTrace}) {
+    var trace = stackTrace?.toString();
+    if (includeStackTrace) {
+      trace ??= _stackTrace;
+    }
+
+    log(LogMessage(
+      LogLevel.fine,
+      message.toString(),
+      DateTime.now(),
+      trace,
+      this,
+    ));
   }
 
-  void debug(
-    String message, {
-    bool includeStackTrace = false,
-    stackTrace,
-  }) {
-    final trace =
-        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.debug, message, DateTime.now(), trace, this));
+  void debug(message, {bool includeStackTrace = false, stackTrace}) {
+    var trace = stackTrace?.toString();
+    if (includeStackTrace) {
+      trace ??= _stackTrace;
+    }
+
+    log(LogMessage(
+      LogLevel.debug,
+      message.toString(),
+      DateTime.now(),
+      trace,
+      this,
+    ));
   }
 
-  void info(
-    String message, {
-    bool includeStackTrace = false,
-    stackTrace,
-  }) {
-    final trace =
-        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.info, message, DateTime.now(), trace, this));
+  void info(message, {bool includeStackTrace = false, stackTrace}) {
+    var trace = stackTrace?.toString();
+    if (includeStackTrace) {
+      trace ??= _stackTrace;
+    }
+
+    log(LogMessage(
+      LogLevel.info,
+      message.toString(),
+      DateTime.now(),
+      trace,
+      this,
+    ));
   }
 
-  void warning(
-    String message, {
-    bool includeStackTrace = false,
-    stackTrace,
-  }) {
-    final trace =
-        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.warning, message, DateTime.now(), trace, this));
+  void warning(message, {bool includeStackTrace = false, stackTrace}) {
+    var trace = stackTrace?.toString();
+    if (includeStackTrace) {
+      trace ??= _stackTrace;
+    }
+
+    log(LogMessage(
+      LogLevel.warning,
+      message.toString(),
+      DateTime.now(),
+      trace,
+      this,
+    ));
   }
 
-  void error(
-    String message, {
-    bool includeStackTrace = true,
-    stackTrace,
-  }) {
-    final trace =
-        includeStackTrace ? stackTrace?.toString() ?? _stackTrace : null;
-    log(LogMessage(LogLevel.error, message, DateTime.now(), trace, this));
+  void error(message, {bool includeStackTrace = true, stackTrace}) {
+    var trace = stackTrace?.toString();
+    if (includeStackTrace) {
+      trace ??= _stackTrace;
+    }
+
+    log(LogMessage(
+      LogLevel.error,
+      message.toString(),
+      DateTime.now(),
+      trace,
+      this,
+    ));
   }
 
   @override
