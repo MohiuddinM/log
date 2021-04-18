@@ -1,3 +1,7 @@
+## 5.2.0
+
+- made Logger message dynamic
+
 ## 5.1.0
 
 - refactored LogMessage
