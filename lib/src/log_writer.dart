@@ -114,11 +114,7 @@ class LogStreamWriter extends LogWriter {
   Stream<LogMessage> get messages => _messages.stream;
 
   LogMessage get lastMessage {
-    if (_messages.value == null) {
-      throw StateError('No messages have been written');
-    }
-
-    return _messages.value!;
+    return _messages.value;
   }
 
   LogStreamWriter({
