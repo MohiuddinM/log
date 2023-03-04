@@ -3,20 +3,17 @@ import 'package:quick_log/quick_log.dart';
 /// Used to assign severity or importance to a [LogMessage]
 ///
 /// A [LogWriter] can also filter messages based of their [LogLevel]
-class LogLevel implements Comparable<LogLevel> {
+enum LogLevel implements Comparable<LogLevel> {
+  fine(0, 'FINE'),
+  debug(1, 'DEBUG'),
+  info(2, 'INFO'),
+  warning(3, 'WARNING'),
+  error(4, 'ERROR');
+
   final int value;
   final String name;
 
-  const LogLevel._(this.value, this.name);
-
-  static const fine = LogLevel._(0, 'FINE');
-  static const debug = LogLevel._(1, 'DEBUG');
-  static const info = LogLevel._(2, 'INFO');
-  static const warning = LogLevel._(3, 'WARNING');
-  static const error = LogLevel._(4, 'ERROR');
-
-  @override
-  bool operator ==(Object other) => other is LogLevel && value == other.value;
+  const LogLevel(this.value, this.name);
 
   bool operator >=(LogLevel other) => value >= other.value;
 
