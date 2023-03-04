@@ -1,3 +1,11 @@
+## 5.3.0
+
+- update for new dart features
+
+## 5.2.1
+
+- fix for warning in non-nullable mode
+
 ## 5.2.0
 
 - made Logger message dynamic
