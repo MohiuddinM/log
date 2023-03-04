@@ -1,5 +1,4 @@
 import 'package:quick_log/quick_log.dart';
-import 'package:quick_log/src/log_writer.dart';
 import 'package:test/test.dart';
 
 class TestLogger1 extends Logger {
