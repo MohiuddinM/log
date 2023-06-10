@@ -11,8 +11,10 @@ abstract class LogWriter {
   final List<String>? onlyTags, exceptTags;
   final LogLevel? onlyLevel, minLevel;
   static bool enableInReleaseMode = false;
-  static const bool _kReleaseMode =
-      bool.fromEnvironment('dart.vm.product', defaultValue: false);
+  static const bool _kReleaseMode = bool.fromEnvironment(
+    'dart.vm.product',
+    defaultValue: false,
+  );
 
   const LogWriter(this.onlyTags, this.exceptTags, this.onlyLevel, this.minLevel)
       : assert(onlyTags == null || exceptTags == null),
@@ -31,7 +33,11 @@ abstract class LogWriter {
       return false;
     }
 
-    if (msg.level >= (minLevel ?? LogLevel.fine) || msg.level == onlyLevel) {
+    if (onlyLevel != null && onlyLevel != msg.level) {
+      return false;
+    }
+
+    if (msg.level >= (minLevel ?? LogLevel.fine)) {
       if (onlyTags != null) {
         if (onlyTags!.contains(msg.logger.tag)) {
           return true;
@@ -127,5 +133,9 @@ class LogStreamWriter extends LogWriter {
     if (shouldLog(msg)) {
       _messages.add(msg);
     }
+  }
+
+  Future<void> dispose() async {
+    return _messages.close();
   }
 }
