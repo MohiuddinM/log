@@ -1,3 +1,7 @@
+## 5.3.1
+
+- fix onlyLevel condition not working
+
 ## 5.3.0
 
 - update for new dart features
