@@ -22,11 +22,7 @@ class LogMessage {
 
   @override
   int get hashCode =>
-      level.hashCode +
-      message.hashCode +
-      timestamp.hashCode +
-      logger.hashCode +
-      stackTrace.hashCode;
+      Object.hash(level, message, timestamp, logger, stackTrace);
 
   @override
   bool operator ==(Object o) =>
