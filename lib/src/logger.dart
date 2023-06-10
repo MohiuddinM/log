@@ -39,13 +39,15 @@ class Logger {
       trace ??= _stackTrace;
     }
 
-    log(LogMessage(
-      LogLevel.fine,
-      message.toString(),
-      DateTime.now(),
-      trace,
-      this,
-    ));
+    log(
+      LogMessage(
+        LogLevel.fine,
+        message.toString(),
+        DateTime.now(),
+        trace,
+        this,
+      ),
+    );
   }
 
   void debug(message, {bool includeStackTrace = false, stackTrace}) {
@@ -54,13 +56,15 @@ class Logger {
       trace ??= _stackTrace;
     }
 
-    log(LogMessage(
-      LogLevel.debug,
-      message.toString(),
-      DateTime.now(),
-      trace,
-      this,
-    ));
+    log(
+      LogMessage(
+        LogLevel.debug,
+        message.toString(),
+        DateTime.now(),
+        trace,
+        this,
+      ),
+    );
   }
 
   void info(message, {bool includeStackTrace = false, stackTrace}) {
@@ -69,13 +73,15 @@ class Logger {
       trace ??= _stackTrace;
     }
 
-    log(LogMessage(
-      LogLevel.info,
-      message.toString(),
-      DateTime.now(),
-      trace,
-      this,
-    ));
+    log(
+      LogMessage(
+        LogLevel.info,
+        message.toString(),
+        DateTime.now(),
+        trace,
+        this,
+      ),
+    );
   }
 
   void warning(message, {bool includeStackTrace = false, stackTrace}) {
@@ -84,13 +90,15 @@ class Logger {
       trace ??= _stackTrace;
     }
 
-    log(LogMessage(
-      LogLevel.warning,
-      message.toString(),
-      DateTime.now(),
-      trace,
-      this,
-    ));
+    log(
+      LogMessage(
+        LogLevel.warning,
+        message.toString(),
+        DateTime.now(),
+        trace,
+        this,
+      ),
+    );
   }
 
   void error(message, {bool includeStackTrace = true, stackTrace}) {
@@ -99,17 +107,19 @@ class Logger {
       trace ??= _stackTrace;
     }
 
-    log(LogMessage(
-      LogLevel.error,
-      message.toString(),
-      DateTime.now(),
-      trace,
-      this,
-    ));
+    log(
+      LogMessage(
+        LogLevel.error,
+        message.toString(),
+        DateTime.now(),
+        trace,
+        this,
+      ),
+    );
   }
 
   @override
-  int get hashCode => name.hashCode + tag.hashCode;
+  int get hashCode => Object.hash(name, tag);
 
   @override
   bool operator ==(Object other) =>
