@@ -89,7 +89,5 @@ void main() {
 
     log.error(() => 'error');
     expect(writer.lastMessage.message, 'error');
-
-
   });
 }

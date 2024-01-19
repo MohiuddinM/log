@@ -73,7 +73,7 @@ class ConsolePrinter extends LogWriter {
       return;
     }
 
-    final color = switch(message.level) {
+    final color = switch (message.level) {
       LogLevel.fine => '92m',
       LogLevel.debug || LogLevel.info => '93m',
       LogLevel.warning => '31m',
