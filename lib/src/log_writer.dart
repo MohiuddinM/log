@@ -68,25 +68,24 @@ class ConsolePrinter extends LogWriter {
   }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
 
   @override
-  Future<void> write(LogMessage msg) async {
-    var color = '';
-    if (shouldLog(msg)) {
-      if (msg.level == LogLevel.fine) {
-        color = '92m';
-      } else if (msg.level == LogLevel.info || msg.level == LogLevel.debug) {
-        color = '93m';
-      } else if (msg.level == LogLevel.warning) {
-        color = '31m';
-      } else if (msg.level == LogLevel.error) {
-        color = '97;41m';
-      }
+  Future<void> write(LogMessage message) async {
+    if (!shouldLog(message)) {
+      return;
+    }
 
-      print(
-          '$_ansiEsc$color${msg.logger.name}: [${msg.level}] - ${msg.message}$_ansiReset');
+    final color = switch(message.level) {
+      LogLevel.fine => '92m',
+      LogLevel.debug || LogLevel.info => '93m',
+      LogLevel.warning => '31m',
+      LogLevel.error => '97;41m',
+    };
 
-      if (msg.stackTrace != null) {
-        print(msg.stackTrace);
-      }
+    print(
+      '$_ansiEsc$color${message.logger.name}: [${message.level}] - ${message.message}$_ansiReset',
+    );
+
+    if (message.stackTrace != null) {
+      print(message.stackTrace);
     }
   }
 }
@@ -129,9 +128,9 @@ class LogStreamWriter extends LogWriter {
   }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
 
   @override
-  Future<void> write(LogMessage msg) async {
-    if (shouldLog(msg)) {
-      _messages.add(msg);
+  Future<void> write(LogMessage message) async {
+    if (shouldLog(message)) {
+      _messages.add(message);
     }
   }
 
