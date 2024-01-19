@@ -1,3 +1,7 @@
+## 5.4.0
+
+- message can be a callback of type ``String Function()``
+
 ## 5.3.1
 
 - fix onlyLevel condition not working
