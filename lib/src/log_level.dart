@@ -1,5 +1,3 @@
-import 'package:quick_log/quick_log.dart';
-
 /// Used to assign severity or importance to a [LogMessage]
 ///
 /// A [LogWriter] can also filter messages based of their [LogLevel]
