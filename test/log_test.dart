@@ -69,4 +69,27 @@ void main() {
   test('level test', () {
     expect(LogLevel.fine >= LogLevel.info, false);
   });
+
+  test('message is String Function()', () {
+    const log = TestLogger1('Main');
+    final writer = LogStreamWriter();
+    Logger.writer = writer;
+
+    log.fine(() => 'fine');
+    expect(writer.lastMessage.message, 'fine');
+
+    log.debug(() => 'debug');
+    expect(writer.lastMessage.message, 'debug');
+
+    log.info(() => 'info');
+    expect(writer.lastMessage.message, 'info');
+
+    log.warning(() => 'warning');
+    expect(writer.lastMessage.message, 'warning');
+
+    log.error(() => 'error');
+    expect(writer.lastMessage.message, 'error');
+
+
+  });
 }
