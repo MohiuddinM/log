@@ -7,15 +7,16 @@ import 'log_writer.dart';
 /// [tag] should be set to the name of the project
 /// Can be used to ignore [LogMessage] from a particular tag
 class Logger {
-  final String name, tag;
+  const Logger(this.name, [this.tag = 'none']);
 
   static LogWriter writer = const ConsolePrinter(minLevel: LogLevel.fine);
 
-  const Logger(this.name, [this.tag = 'none']);
+  final String name, tag;
 
   /// Generic function which sends message to [LogWriter]
   ///
   /// This can either be used directly, but is more helpful to use level specific functions like [info], [warning] etc
+  @pragma('vm:prefer-inline')
   void log(LogMessage message) {
     writer.write(message);
   }
@@ -33,6 +34,9 @@ class Logger {
     return output.toString();
   }
 
+  @pragma('vm:prefer-inline')
+  String _str(o) => o is String Function() ? o() : o.toString();
+
   void fine(message, {bool includeStackTrace = false, stackTrace}) {
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
@@ -42,7 +46,7 @@ class Logger {
     log(
       LogMessage(
         LogLevel.fine,
-        message.toString(),
+        _str(message),
         DateTime.now(),
         trace,
         this,
@@ -59,7 +63,7 @@ class Logger {
     log(
       LogMessage(
         LogLevel.debug,
-        message.toString(),
+        _str(message),
         DateTime.now(),
         trace,
         this,
@@ -76,7 +80,7 @@ class Logger {
     log(
       LogMessage(
         LogLevel.info,
-        message.toString(),
+        _str(message),
         DateTime.now(),
         trace,
         this,
@@ -93,7 +97,7 @@ class Logger {
     log(
       LogMessage(
         LogLevel.warning,
-        message.toString(),
+        _str(message),
         DateTime.now(),
         trace,
         this,
@@ -110,7 +114,7 @@ class Logger {
     log(
       LogMessage(
         LogLevel.error,
-        message.toString(),
+        _str(message),
         DateTime.now(),
         trace,
         this,
