@@ -35,7 +35,7 @@ class Logger {
   }
 
   @pragma('vm:prefer-inline')
-  String _str(o) => o is String Function() ? o() : o.toString();
+  String _str(o) => o is dynamic Function() ? o().toString() : o.toString();
 
   void fine(message, {bool includeStackTrace = false, stackTrace}) {
     var trace = stackTrace?.toString();
