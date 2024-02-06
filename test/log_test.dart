@@ -90,4 +90,25 @@ void main() {
     log.error(() => 'error');
     expect(writer.lastMessage.message, 'error');
   });
+
+  test('message is dynamic Function()', () {
+    const log = TestLogger1('Main');
+    final writer = LogStreamWriter();
+    Logger.writer = writer;
+
+    log.fine(() => 1);
+    expect(writer.lastMessage.message, '1');
+
+    log.debug(() => 2.1);
+    expect(writer.lastMessage.message, '2.1');
+
+    log.info(() => [1]);
+    expect(writer.lastMessage.message, '[1]');
+
+    log.warning(() => (1, 2));
+    expect(writer.lastMessage.message, '(1, 2)');
+
+    log.warning(() => {});
+    expect(writer.lastMessage.message, '{}');
+  });
 }
