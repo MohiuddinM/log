@@ -1,3 +1,7 @@
+## 5.4.1
+
+- change ``String Function()`` to ``dynamic Function()``
+
 ## 5.4.0
 
 - message can be a callback of type ``String Function()``
