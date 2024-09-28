@@ -1,3 +1,8 @@
+## 5.5.0
+
+- speed up log filtering
+- upgrade deps
+
 ## 5.4.1
 
 - change ``String Function()`` to ``dynamic Function()``
