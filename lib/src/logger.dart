@@ -35,9 +35,21 @@ class Logger {
   }
 
   @pragma('vm:prefer-inline')
+  bool _shouldIgnoreLevel(LogLevel level) {
+    final minLevel = writer.minLevel ?? LogLevel.fine;
+    final onlyLevel = writer.minLevel;
+
+    return minLevel > level && onlyLevel != level;
+  }
+
+  @pragma('vm:prefer-inline')
   String _str(o) => o is dynamic Function() ? o().toString() : o.toString();
 
   void fine(message, {bool includeStackTrace = false, stackTrace}) {
+    if (_shouldIgnoreLevel(LogLevel.fine)) {
+      return;
+    }
+
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
       trace ??= _stackTrace;
@@ -55,6 +67,10 @@ class Logger {
   }
 
   void debug(message, {bool includeStackTrace = false, stackTrace}) {
+    if (_shouldIgnoreLevel(LogLevel.debug)) {
+      return;
+    }
+
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
       trace ??= _stackTrace;
@@ -72,6 +88,10 @@ class Logger {
   }
 
   void info(message, {bool includeStackTrace = false, stackTrace}) {
+    if (_shouldIgnoreLevel(LogLevel.info)) {
+      return;
+    }
+
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
       trace ??= _stackTrace;
@@ -89,6 +109,10 @@ class Logger {
   }
 
   void warning(message, {bool includeStackTrace = false, stackTrace}) {
+    if (_shouldIgnoreLevel(LogLevel.warning)) {
+      return;
+    }
+
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
       trace ??= _stackTrace;
@@ -106,6 +130,10 @@ class Logger {
   }
 
   void error(message, {bool includeStackTrace = true, stackTrace}) {
+    if (_shouldIgnoreLevel(LogLevel.error)) {
+      return;
+    }
+
     var trace = stackTrace?.toString();
     if (includeStackTrace) {
       trace ??= _stackTrace;
