@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'log_level.dart';
@@ -64,26 +65,133 @@ class ConsolePrinter extends LogWriter {
     LogLevel? minLevel,
   }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
 
+  String color(LogLevel level) => switch (level) {
+        LogLevel.fine => '92m',
+        LogLevel.debug || LogLevel.info => '93m',
+        LogLevel.warning => '31m',
+        LogLevel.error => '97;41m',
+      };
+
   @override
   Future<void> write(LogMessage message) async {
     if (!shouldLog(message)) {
       return;
     }
 
-    final color = switch (message.level) {
-      LogLevel.fine => '92m',
-      LogLevel.debug || LogLevel.info => '93m',
-      LogLevel.warning => '31m',
-      LogLevel.error => '97;41m',
-    };
+    final c = color(message.level);
 
     print(
-      '$_ansiEsc$color[${message.level}] ${message.logger.name}: ${message.message}$_ansiReset',
+      '$_ansiEsc$c[${message.level}] ${message.logger.name}: ${message.message}$_ansiReset',
     );
 
     if (message.stackTrace != null) {
       print(message.stackTrace);
     }
+  }
+}
+
+enum TimeSetting {
+  none,
+  fromStart,
+  fromPreviousMessage,
+}
+
+enum TimeUnit {
+  us,
+  ms,
+  s,
+  m,
+}
+
+/// Default [LogWriter], prints all [LogMessage] to the default console
+class ConsolePrinterWithTime extends ConsolePrinter {
+  ConsolePrinterWithTime({
+    super.onlyTags,
+    super.exceptTags,
+    super.onlyLevel,
+    super.minLevel,
+    this.startTime,
+    this.timeUnit,
+    this.timeSetting = TimeSetting.fromStart,
+  });
+
+  static const _ansiEsc = '\x1B[';
+  static const _ansiReset = '\x1b[0m';
+
+  final TimeSetting timeSetting;
+  final TimeUnit? timeUnit;
+  final DateTime? startTime;
+  final _startTime = clock.now();
+  DateTime? _lastMessageTime;
+
+  String _durationToString(Duration duration) {
+    final timeUnit = this.timeUnit;
+
+    if (timeUnit != null) {
+      return switch (timeUnit) {
+        TimeUnit.us => duration.inMicroseconds.toString(),
+        TimeUnit.ms => duration.inMilliseconds.toString(),
+        TimeUnit.s => duration.inSeconds.toString(),
+        TimeUnit.m => duration.inMinutes.toString(),
+      };
+    }
+
+    final us = duration.inMicroseconds;
+
+    if (us < 1000) {
+      return '$us us';
+    }
+
+    final ms = us ~/ 1000;
+
+    if (ms < 1000) {
+      return '$ms ms';
+    }
+
+    final s = ms / 1000;
+
+    return '${s.toStringAsFixed(1)} s';
+  }
+
+  Duration _timeSinceLastMessage(DateTime from) {
+    return _lastMessageTime == null
+        ? Duration.zero
+        : from.difference(_lastMessageTime ?? from);
+  }
+
+  Duration _timeSinceStart(DateTime from) {
+    return from.difference(startTime ?? _startTime);
+  }
+
+  @override
+  Future<void> write(LogMessage message) async {
+    if (!shouldLog(message)) {
+      return;
+    }
+
+    final c = color(message.level);
+
+    var timeString = switch (timeSetting) {
+      TimeSetting.none => '',
+      TimeSetting.fromStart =>
+        '+${_durationToString(_timeSinceStart(message.timestamp))}',
+      TimeSetting.fromPreviousMessage =>
+        '+${_durationToString(_timeSinceLastMessage(message.timestamp))}',
+    };
+
+    if (timeString.isNotEmpty) {
+      timeString = ' ($timeString)';
+    }
+
+    print(
+      '$_ansiEsc$c[${message.level}] ${message.logger.name}: ${message.message}$timeString$_ansiReset',
+    );
+
+    if (message.stackTrace != null) {
+      print(message.stackTrace);
+    }
+
+    _lastMessageTime = message.timestamp;
   }
 }
 
