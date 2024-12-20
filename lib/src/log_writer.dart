@@ -26,9 +26,6 @@ abstract class LogWriter {
   Future<void> write(LogMessage message);
 
   bool shouldLog(LogMessage msg) {
-    // bool debugMode = false;
-    // assert(debugMode = true);
-
     if (_kReleaseMode && !enableInReleaseMode) {
       return false;
     }
@@ -114,18 +111,23 @@ class NullWriter extends LogWriter {
 /// Useful for debugging purpose
 /// Stream can also be redirected
 class LogStreamWriter extends LogWriter {
-  final _messages = BehaviorSubject<LogMessage>();
+  late ReplaySubject<LogMessage> _messages;
 
   Stream<LogMessage> get messages => _messages.stream;
 
-  LogMessage get lastMessage => _messages.value;
+  @pragma('vm:prefer-inline')
+  List<LogMessage> get pastMessages => _messages.values;
+
+  @pragma('vm:prefer-inline')
+  LogMessage get lastMessage => pastMessages.last;
 
   LogStreamWriter({
     List<String>? onlyTags,
     List<String>? exceptTags,
     LogLevel? onlyLevel,
     LogLevel? minLevel,
-  }) : super(onlyTags, exceptTags, onlyLevel, minLevel);
+  })  : _messages = ReplaySubject(),
+        super(onlyTags, exceptTags, onlyLevel, minLevel);
 
   @override
   Future<void> write(LogMessage message) async {
@@ -136,5 +138,9 @@ class LogStreamWriter extends LogWriter {
 
   Future<void> dispose() async {
     return _messages.close();
+  }
+
+  void clear() {
+    _messages = ReplaySubject();
   }
 }
