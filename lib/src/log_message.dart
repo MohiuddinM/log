@@ -30,11 +30,19 @@ class LogMessage {
       );
 
   @override
-  bool operator ==(Object other) =>
-      other is LogMessage &&
-      other.level == level &&
-      other.message == message &&
-      other.timestamp == timestamp &&
-      other.logger == logger &&
-      other.stackTrace == stackTrace;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is LogMessage &&
+        other.level == level &&
+        other.message == message &&
+        other.timestamp == timestamp &&
+        other.logger == logger &&
+        other.stackTrace == stackTrace;
+  }
+
+  @override
+  String toString() {
+    return 'LogMessage{level: $level, message: $message, timestamp: $timestamp, logger: $logger, stackTrace: $stackTrace}';
+  }
 }
