@@ -1,3 +1,8 @@
+## 5.5.1
+
+- add console printer with time
+- add clear method to log stream writer
+
 ## 5.5.0
 
 - speed up log filtering
