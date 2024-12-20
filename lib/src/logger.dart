@@ -1,3 +1,5 @@
+import 'package:clock/clock.dart';
+
 import 'log_level.dart';
 import 'log_message.dart';
 import 'log_writer.dart';
@@ -45,6 +47,15 @@ class Logger {
   @pragma('vm:prefer-inline')
   String _str(o) => o is dynamic Function() ? o().toString() : o.toString();
 
+  @pragma('vm:prefer-inline')
+  void f(message, {bool includeStackTrace = false, stackTrace}) {
+    return fine(
+      message,
+      includeStackTrace: includeStackTrace,
+      stackTrace: stackTrace,
+    );
+  }
+
   void fine(message, {bool includeStackTrace = false, stackTrace}) {
     if (_shouldIgnoreLevel(LogLevel.fine)) {
       return;
@@ -59,10 +70,19 @@ class Logger {
       LogMessage(
         LogLevel.fine,
         _str(message),
-        DateTime.now(),
+        clock.now(),
         trace,
         this,
       ),
+    );
+  }
+
+  @pragma('vm:prefer-inline')
+  void d(message, {bool includeStackTrace = false, stackTrace}) {
+    return debug(
+      message,
+      includeStackTrace: includeStackTrace,
+      stackTrace: stackTrace,
     );
   }
 
@@ -80,10 +100,19 @@ class Logger {
       LogMessage(
         LogLevel.debug,
         _str(message),
-        DateTime.now(),
+        clock.now(),
         trace,
         this,
       ),
+    );
+  }
+
+  @pragma('vm:prefer-inline')
+  void i(message, {bool includeStackTrace = false, stackTrace}) {
+    return info(
+      message,
+      includeStackTrace: includeStackTrace,
+      stackTrace: stackTrace,
     );
   }
 
@@ -101,10 +130,19 @@ class Logger {
       LogMessage(
         LogLevel.info,
         _str(message),
-        DateTime.now(),
+        clock.now(),
         trace,
         this,
       ),
+    );
+  }
+
+  @pragma('vm:prefer-inline')
+  void w(message, {bool includeStackTrace = false, stackTrace}) {
+    return warning(
+      message,
+      includeStackTrace: includeStackTrace,
+      stackTrace: stackTrace,
     );
   }
 
@@ -122,10 +160,19 @@ class Logger {
       LogMessage(
         LogLevel.warning,
         _str(message),
-        DateTime.now(),
+        clock.now(),
         trace,
         this,
       ),
+    );
+  }
+
+  @pragma('vm:prefer-inline')
+  void e(message, {bool includeStackTrace = true, stackTrace}) {
+    return error(
+      message,
+      includeStackTrace: includeStackTrace,
+      stackTrace: stackTrace,
     );
   }
 
@@ -143,7 +190,7 @@ class Logger {
       LogMessage(
         LogLevel.error,
         _str(message),
-        DateTime.now(),
+        clock.now(),
         trace,
         this,
       ),
