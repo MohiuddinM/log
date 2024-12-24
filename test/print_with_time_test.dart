@@ -1,6 +1,5 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:quick_log/quick_log.dart';
-import 'package:quick_log/src/log_writer.dart';
 import 'package:test/test.dart';
 
 void main() {
