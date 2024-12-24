@@ -39,9 +39,13 @@ class Logger {
   @pragma('vm:prefer-inline')
   bool _shouldIgnoreLevel(LogLevel level) {
     final minLevel = writer.minLevel ?? LogLevel.fine;
-    final onlyLevel = writer.minLevel;
+    final onlyLevel = writer.onlyLevel;
 
-    return minLevel > level && onlyLevel != level;
+    if (onlyLevel != null && level != onlyLevel) {
+      return true;
+    }
+
+    return level < minLevel;
   }
 
   @pragma('vm:prefer-inline')

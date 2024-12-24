@@ -17,6 +17,8 @@ enum LogLevel implements Comparable<LogLevel> {
 
   bool operator >(LogLevel other) => value > other.value;
 
+  bool operator <(LogLevel other) => value < other.value;
+
   @override
   int compareTo(LogLevel other) => value - other.value;
 
