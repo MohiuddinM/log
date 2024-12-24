@@ -111,4 +111,41 @@ void main() {
     log.warning(() => {});
     expect(writer.lastMessage.message, '{}');
   });
+
+  test('shouldIgnoreLevel onyLevel', () {
+    const log = TestLogger1('Main');
+
+    for (final level in LogLevel.values) {
+      final writer = LogStreamWriter(onlyLevel: level);
+      Logger.writer = writer;
+
+      log.f('');
+      log.d('');
+      log.i('');
+      log.w('');
+      log.e('');
+
+      expect(writer.pastMessages.length, 1);
+      expect(writer.lastMessage.level, level);
+    }
+  });
+
+  test('shouldIgnoreLevel minLevel', () {
+    const log = TestLogger1('Main');
+
+    for (final level in LogLevel.values) {
+      final writer = LogStreamWriter(minLevel: level);
+      Logger.writer = writer;
+
+      log.f('');
+      log.d('');
+      log.i('');
+      log.w('');
+      log.e('');
+
+      final loggedLevels = writer.pastMessages.map((e) => e.level);
+
+      expect(loggedLevels, everyElement(greaterThanOrEqualTo(level)));
+    }
+  });
 }
