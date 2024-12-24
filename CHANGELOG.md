@@ -1,3 +1,7 @@
+## 5.5.2
+
+- minor refactor
+
 ## 5.5.1
 
 - add console printer with time
