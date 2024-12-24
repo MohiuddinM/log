@@ -31,8 +31,8 @@ void main() {
 
   Logger.writer = ConsolePrinter(minLevel: LogLevel.info);
 
-  log.debug('this is a debug message');
-  log.info('this is an info message');
+  log.d('this is a debug message');
+  log.i('this is an info message');
 }
 ```
 
@@ -49,12 +49,28 @@ void main() {
 
   Logger.writer = ConsolePrinter(onlyTags: []);
   // Or
-  Logger.writer = ConsolePrinter(exceptTags: [log.namespace]);
+  Logger.writer = ConsolePrinter(exceptTags: [log.name]);
 
   // These messages won't be printed
-  log.debug('this is a debug message');
-  log.info('this is an info message');
+  log.d('this is a debug message');
+  log.i('this is an info message');
 }
+```
+
+Can be used in tests by using the LogStreamWriter:
+```dart
+import 'package:quick_log/quick_log.dart';
+
+test('test', () {
+  const log = Logger('LogExample');
+  final writer = LogStreamWriter();
+  Logger.writer = writer;
+
+  log.i('this line was executed');
+  
+  expect(writer.pastMessages.length, 1);
+  expect(writer.lastMessage.message, 'this is an info message');
+});
 ```
 
 Please file feature requests and bugs at the [issue tracker][tracker].
