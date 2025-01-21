@@ -1,3 +1,7 @@
+## 5.5.3
+
+- loosen dependencies constraints
+
 ## 5.5.2
 
 - minor refactor
